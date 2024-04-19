@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Вкладки</title>
+<style>
+  .tab {
+    display: none;
+  }
+
+  .tab.active {
+    display: block;
+  }
+  .container {
+    display: flex;
+    justify-content: space-between;
+    padding: 1em;
+    font-family: Arial, sans-serif;
+  }
+  
+  .centered-cell {
+    text-align: center;
+  }
+    /* th, td {
+    text-align: center; 
+  } */
+</style>
+</head>
+<body>
+
+<!-- Панель вкладок -->
+<div class="tab-panel">
+  <button class="tab-button" onclick="openTab(event, 'macro')">Макро</button>
+  <button class="tab-button" onclick="openTab(event, 'micro')">Микро</button>
+  <button class="tab-button" onclick="openTab(event, 'concentrates')">Концентраты</button>
+  <button class="tab-button" onclick="openTab(event, 'corrector')">Корректор</button>
+  <button class="tab-button" onclick="openTab(event, 'file')">Файл</button>
+  <button class="tab-button" onclick="openTab(event, 'help')">Help</button>
+</div>
+
+<div id="macro" class="tab active">
+  <div class="container">
+    <div>Макропрофиль мг/л(ppm)</div>
+    <div><b>Расчет макропрофиля и навесок солей</b></div>
+  </div>
+  <form>
+  <table>
+    <thead>
+      <tr>
+        <th></th>
+        <th>N</th>
+        <th>P</th>
+        <th>K</th>
+        <th>Ca</th>
+        <th>Mg</th>
+        <th>S</th>
+        <th>Cl</th>
+        <th>EC</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td></td>
+        <td><input type="number" id="inputN" oninput="calculate()" value="220"></td>
+        <td><input type="number" id="inputP" oninput="calculate()" value="40"></td>
+        <td><input type="number" id="inputK" oninput="calculate()" value="180"></td>
+        <td><input type="number" id="inputCa" oninput="calculate()" value="200"></td>
+        <td><input type="number" id="inputMg" oninput="calculate()" value="50"></td>
+        <td><input type="number" id="inputS" oninput="calculate()" value="80"></td>
+        <td><input type="number" id="inputCl" oninput="calculate()" value="0"></td>
+        <td><input type="number" id="inputEC" oninput="calculate()" value="0"></td>
+      </tr>
+      <tr>
+        <td>NO3</td>
+        <td><input type="number" id="inputNO3" oninput="calculate()" value="200"></td>
+        <td><div id="textNH4toNO3">NH4:NO3</div></td>
+        <td></td>
+        <td><div id="textPKA">текст1</td>
+      </tr>
+      <tr>
+        <td>NH4</td>
+        <td><input type="number" id="inputNH4" oninput="calculate()" value="20"></td>
+        <td><input type="number" id="inputNH4toNO3" oninput="calculate()" value="0.1"></td>
+        <td></td>
+        <td><div id="textPKF">текст2</td>
+      </tr>
+    </tbody>
+  </table>
+  </form>
+  <div class="container">
+    <div>Матрица соотношений элементов</div>
+  </div>
+  <form>
+    <table>
+      <thead>
+        <tr>
+          <th></th>
+          <th>N</th>
+          <th>P</th>
+          <th>K</th>
+          <th>Ca</th>
+          <th>Mg</th>
+          <th>S</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>N</td>
+          <td class="centered-cell">1</td>
+          <td><input type="number" id="inputNtoP" oninput="calculate()" value="0.01"></td>
+          <td><input type="number" id="inputNtoK" oninput="calculate()" value="0.01"></td>
+          <td><input type="number" id="inputNtoCa" oninput="calculate()" value="0.01"></td>
+          <td><input type="number" id="inputNtoMg" oninput="calculate()" value="0.01"></td>
+          <td><input type="number" id="inputNtoS" oninput="calculate()" value="0.01"></td>
+        </tr>
+        <tr>
+          <td>P</td>
+          <td><input type="number" id="inputPtoN" oninput="calculate()" value="0.01"></td>
+          <td class="centered-cell">1</td>
+          <td><input type="number" id="inputPtoK" oninput="calculate()" value="0.01"></td>
+          <td><input type="number" id="inputPtoCa" oninput="calculate()" value="0.01"></td>
+          <td><input type="number" id="inputPtoMg" oninput="calculate()" value="0.01"></td>
+          <td><input type="number" id="inputPtoS" oninput="calculate()" value="0.01"></td>
+        </tr>
+        <tr>
+          <td>K</td>
+          <td><input type="number" id="inputKtoN" oninput="calculate()" value="0.01"></td>
+          <td><input type="number" id="inputKtoP" oninput="calculate()" value="0.01"></td>
+          <td class="centered-cell">1</td>
+          <td><input type="number" id="inputKtoCa" oninput="calculate()" value="0.01"></td>
+          <td><input type="number" id="inputKtoMg" oninput="calculate()" value="0.01"></td>
+          <td><input type="number" id="inputKtoS" oninput="calculate()" value="0.01"></td>
+        </tr>
+        <tr>
+          <td>Ca</td>
+          <td><input type="number" id="inputCatoN" oninput="calculate()" value="0.01"></td>
+          <td><input type="number" id="inputCatoP" oninput="calculate()" value="0.01"></td>
+          <td><input type="number" id="inputCatoK" oninput="calculate()" value="0.01"></td>
+          <td class="centered-cell">1</td>
+          <td><input type="number" id="inputCatoMg" oninput="calculate()" value="0.01"></td>
+          <td><input type="number" id="inputCatoS" oninput="calculate()" value="0.01"></td>
+        </tr>
+        <tr>
+          <td>Mg</td>
+          <td><input type="number" id="inputMgtoN" oninput="calculate()" value="0.01"></td>
+          <td><input type="number" id="inputMgtoP" oninput="calculate()" value="0.01"></td>
+          <td><input type="number" id="inputMgtoK" oninput="calculate()" value="0.01"></td>
+          <td><input type="number" id="inputMgtoCa" oninput="calculate()" value="0.01"></td>
+          <td class="centered-cell">1</td>
+          <td><input type="number" id="inputMgtoS" oninput="calculate()" value="0.01"></td>
+        </tr>
+        <tr>
+          <td>S</td>
+          <td><input type="number" id="inputStoN" oninput="calculate()" value="0.01"></td>
+          <td><input type="number" id="inputStoP" oninput="calculate()" value="0.01"></td>
+          <td><input type="number" id="inputStoK" oninput="calculate()" value="0.01"></td>
+          <td><input type="number" id="inputStoCa" oninput="calculate()" value="0.01"></td>
+          <td><input type="number" id="inputStoMg" oninput="calculate()" value="0.01"></td>
+          <td class="centered-cell">1</td>
+        </tr>
+      </tbody>
+    </table>
+  </form>
+  <form>
+    <table>
+      <thead>
+        <tr>
+          <th>Составы солей</th>
+          <th></th>
+          <th>%</th>
+          <th></th>
+          <th>%</th>
+          <th></th>
+          <th>%</th>
+          <th>грамм</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Кальций азотнокислый 4-водный (ч.)</td>
+          <td>Ca</td>
+          <td>
+            <input type="number" id="inputCaInCANO3" oninput="calculate()" value="16.972">
+          </td>
+          <td>NO3</td>
+          <td>
+            <input type="number" id="inputNO3InCANO3" oninput="calculate()" value="11.863">
+          </td>
+          <td>NH4</td>
+          <td>
+            <input type="number" id="inputNH4InCANO3" oninput="calculate()" value="0">
+          </td>
+          <td>
+            <input type="number" id="gCaNO3" oninput="calculate()" value="0">
+          </td>
+        </tr>
+        <tr>
+          <td>Калий азотнокислый (ч.)</td>
+          <td>K</td>
+          <td>
+            <input type="number" id="inputKInKNO3" oninput="calculate()" value="38.672">
+          </td>
+          <td>NO3</td>
+          <td>
+            <input type="number" id="inputNO3InKNO3" oninput="calculate()" value="13.854">
+          </td>
+          <td>
+          </td>
+          <td>
+          </td>
+          <td>
+            <input type="number" id="gKNO3" oninput="calculate()" value="0">
+          </td>
+        </tr>
+        <tr>
+          <td>Аммоний азотнокислый (ч.)</td>
+          <td>NH4</td>
+          <td>
+            <input type="number" id="inputNH4KInNH4NO3" oninput="calculate()" value="17.499">
+          </td>
+          <td>NO3</td>
+          <td>
+            <input type="number" id="inputNO3InNH4NO3" oninput="calculate()" value="17.499">
+          </td>
+          <td></td>
+          <td></td>
+          <td>
+            <input type="number" id="gNH4NO3" oninput="calculate()" value="0">
+          </td>
+        </tr>
+        <tr>
+          <td>Магний сернокислый 7-водный (ч.)</td>
+          <td>Mg</td>
+          <td>
+            <input type="number" id="inputMgInMgS" oninput="calculate()" value="9.861">
+          </td>
+          <td>S</td>
+          <td>
+            <input type="number" id="inputSInMgS" oninput="calculate()" value="13.01">
+          </td>
+          <td></td>
+          <td></td>
+          <td>
+            <input type="number" id="gMgS" oninput="calculate()" value="0">
+          </td>
+        </tr>
+        <tr>
+          <td>Калий фосфорнокислый 1-замещенный (ч.)</td>
+          <td>K</td>
+          <td>
+            <input type="number" id="inputKInKP" oninput="calculate()" value="28.731">
+          </td>
+          <td>P</td>
+          <td>
+            <input type="number" id="inputPInKP" oninput="calculate()" value="22.761">
+          </td>
+          <td></td>
+          <td></td>
+          <td>
+            <input type="number" id="gKP" oninput="calculate()" value="0">
+          </td>
+        </tr>
+        <tr>
+          <td>Калий сернокислый безводный (ч.)</td>
+          <td>K</td>
+          <td>
+            <input type="number" id="inputKInKS" oninput="calculate()" value="44.874">
+          </td>
+          <td>S</td>
+          <td>
+            <input type="number" id="inputSInKS" oninput="calculate()" value="18.401">
+          </td>
+          <td></td>
+          <td><input type="checkbox" id="cbKS" checked></td>
+          <td>
+            <input type="number" id="gKS" oninput="calculate()" value="0">
+          </td>
+        </tr>
+        </tr>
+        <tr>
+          <td>Магний азотнокислый 6-водный (ч.)</td>
+          <td>Mg</td>
+          <td>
+            <input type="number" id="inputMgInMgNO3" oninput="calculate()" value="9.479">
+          </td>
+          <td>NO3</td>
+          <td>
+            <input type="number" id="inputNO3InMgNO3" oninput="calculate()" value="10.925">
+          </td>
+          <td></td>
+          <td><input type="checkbox" id="cbMgNO3"></td>
+          <td>
+            <input type="number" id="gMgNO3" oninput="calculate()" value="0">
+          </td>
+        </tr>
+        <tr>
+          <td>Хлорид кальция 6-водный (ч)</td>
+          <td>Ca</td>
+          <td>
+            <input type="number" id="inputCaInCaCl" oninput="calculate()" value="18.294">
+          </td>
+          <td>Cl</td>
+          <td>
+            <input type="number" id="inputClInCaCl" oninput="calculate()" value="32.366">
+          </td>
+          <td></td>
+          <td></td>
+          <td>
+            <input type="number" id="gCaCl" oninput="calculate()" value="0">
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </form>
+</div>
+<div id="micro" class="tab">
+  micro
+</div>
+<div id="concentrates" class="tab">
+  concentrates
+</div>
+<div id="corrector" class="tab">
+  corrector
+</div>
+<div id="file" class="tab">
+  file
+</div>
+<div id="help" class="tab">
+  help
+</div>
+
+<script>
+  function openTab(evt, tabName) {
+    var i, tabContent, tabLinks;
+    tabContent = document.getElementsByClassName("tab");
+    for (i = 0; i < tabContent.length; i++) {
+      tabContent[i].style.display = "none";
+    }
+    tabLinks = document.getElementsByClassName("tab-button");
+    for (i = 0; i < tabLinks.length; i++) {
+      tabLinks[i].className = tabLinks[i].className.replace(" active", "");
+    }
+    document.getElementById(tabName).style.display = "block";
+    evt.currentTarget.className += " active";
+  }
+  document.getElementById("macro").style.display = "block";
+</script>
+
+</body>
+</html>
